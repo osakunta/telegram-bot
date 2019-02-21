@@ -15,8 +15,8 @@ updater = Updater(token=os.getenv('TOKEN'))
 dispatcher = updater.dispatcher
 
 start_handler = CommandHandler('start', start)
-today_handler = CommandHandler('today', today)
-week_handler = CommandHandler('week', week)
+today_handler = CommandHandler('h', today)
+week_handler = CommandHandler('hv', week)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(today_handler)
