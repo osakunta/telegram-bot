@@ -2,7 +2,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler
-from bot import start, today
+from bot import start, today, week
 
 load_dotenv()
 
@@ -16,8 +16,10 @@ dispatcher = updater.dispatcher
 
 start_handler = CommandHandler('start', start)
 today_handler = CommandHandler('today', today)
+week_handler = CommandHandler('week', week)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(today_handler)
+dispatcher.add_handler(week_handler)
 
 updater.start_polling()
