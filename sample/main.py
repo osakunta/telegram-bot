@@ -2,7 +2,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler
-from bot import start, today, week
+from bot import today, week
 
 load_dotenv()
 
