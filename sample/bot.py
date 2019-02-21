@@ -5,10 +5,6 @@ def __send_message(bot, update, message):
     bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode='markdown')
 
 
-def start(bot, update):
-    __send_message(bot, update, "Use command /today to get today's menu!")
-
-
 def today(bot, update):
     __send_message(bot, update, get_todays_menu())
 
