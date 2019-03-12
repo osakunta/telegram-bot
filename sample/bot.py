@@ -11,3 +11,7 @@ def today(bot, update):
 
 def week(bot, update):
     __send_message(bot, update, get_weeks_menu())
+
+
+def janitor(bot, update):
+    __send_message(bot, update, "Satakuntatalon huoltopäivystys puh. 050-2861")
