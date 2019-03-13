@@ -2,7 +2,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler
-from bot import hamis_today, hamis_week, janitor
+from bot import hamis_menu, janitor
 
 load_dotenv()
 
@@ -15,8 +15,7 @@ updater = Updater(token=os.getenv('TOKEN'))
 dispatcher = updater.dispatcher
 
 command_handlers = [
-    CommandHandler('ruokalista', hamis_today),
-    CommandHandler('hv', hamis_week),
+    CommandHandler('ruokalista', hamis_menu, pass_args=True),
     CommandHandler('huolto', janitor)
 ]
 
