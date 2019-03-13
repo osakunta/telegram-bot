@@ -6,7 +6,7 @@ def __send_message(bot, update, message):
 
 
 def hamis_menu(bot, update, args):
-    if args[0] == 'viikko':
+    if args and args[0] == 'viikko':
         __send_message(bot, update, get_weeks_menu())
     else:
         __send_message(bot, update, get_todays_menu())
