@@ -11,17 +11,22 @@ def __get_menu():
     return todays_list
 
 
+def __with_header(header, body):
+    return '*{}*\n{}'.format(header, body)
+
+
 def __format_list(days_list):
     date = days_list.find("div", {"class": "col-day"}).p.get_text().capitalize()
     food = days_list.find("div", {"class": "col-food"}).p.get_text()
 
-    return '*{}*\n{}'.format(date, food)
+    return __with_header(date, food)
 
 
 def get_todays_menu():
     todays_list = __get_menu().find("div", {"class": "row-today"})
+    formatted_list = __format_list(todays_list)
 
-    return __format_list(todays_list)
+    return __with_header('Hämiksen ruokalista', formatted_list)
 
 
 def get_weeks_menu():
@@ -32,4 +37,4 @@ def get_weeks_menu():
         formatted_list += __format_list(days_list)
         formatted_list += '\n'
 
-    return formatted_list
+    return __with_header('Hämiksen ruokalista', formatted_list)

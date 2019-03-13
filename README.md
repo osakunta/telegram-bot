@@ -1,5 +1,5 @@
-Hämis Menu Bot
-==============
+SatO Telegram Bot
+=================
 
 Setup
 -----

@@ -5,11 +5,11 @@ def __send_message(bot, update, message):
     bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode='markdown')
 
 
-def today(bot, update):
+def hamis_today(bot, update):
     __send_message(bot, update, get_todays_menu())
 
 
-def week(bot, update):
+def hamis_week(bot, update):
     __send_message(bot, update, get_weeks_menu())
 
 
