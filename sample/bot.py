@@ -14,3 +14,7 @@ def hamis_menu(bot, update, args):
 
 def janitor(bot, update):
     __send_message(bot, update, "Satakuntatalon huoltopäivystys puh. 050-2861")
+
+
+def janitor_form(bot, update):
+    __send_message(bot, update, "[Huoltoilmoituslomake](https://asuntola.satakuntatalo.fi/huoltoilmoitus)")
