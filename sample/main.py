@@ -12,7 +12,6 @@ logging.basicConfig(
 )
 
 updater = Updater(token=os.getenv('TOKEN'))
-dispatcher = updater.dispatcher
 
 command_handlers = [
     CommandHandler('ruokalista', hamis_menu, pass_args=True),
@@ -21,6 +20,6 @@ command_handlers = [
 ]
 
 for handler in command_handlers:
-    dispatcher.add_handler(handler)
+    updater.dispatcher.add_handler(handler)
 
 updater.start_polling()
