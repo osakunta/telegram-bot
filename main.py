@@ -1,15 +1,16 @@
 import os
 import logging
+import telegram
 from telegram.ext import Updater, CommandHandler
 from telegram_bot.bot import hamis_menu, janitor, janitor_form
 
-def telegram_bot():
+def telegram_bot(request):
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO
     )
 
-    updater = Updater(token=os.getenv('TOKEN'))
+    bot = telegram.Bot(token=os.getenv('TOKEN'))
 
     command_handlers = [
         CommandHandler('ruokalista', hamis_menu, pass_args=True),
@@ -17,10 +18,12 @@ def telegram_bot():
         CommandHandler('huoltoilmoitus', janitor_form),
     ]
 
-    for handler in command_handlers:
-        updater.dispatcher.add_handler(handler)
+    if request.method == "POST":
+        update = telegram.Update.de_json(request.get_json(force=True), bot)
 
-    updater.start_webhook()
+        print(update)
 
-if __name__ == '__main__':
-    telegram_bot()
+    # for handler in command_handlers:
+    #     updater.dispatcher.add_handler(handler)
+
+    # updater.start_webhook()
