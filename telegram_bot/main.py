@@ -1,12 +1,9 @@
 import os
 import logging
-from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler
 from bot import hamis_menu, janitor, janitor_form
 
 def telegram_bot():
-    load_dotenv()
-
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO
