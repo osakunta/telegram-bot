@@ -12,18 +12,16 @@ def telegram_bot(request):
 
     bot = telegram.Bot(token=os.getenv('TOKEN'))
 
-    command_handlers = [
-        CommandHandler('ruokalista', hamis_menu, pass_args=True),
-        CommandHandler('huolto', janitor),
-        CommandHandler('huoltoilmoitus', janitor_form),
-    ]
-
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
+        instructions = update.text.split()
+        command = instructions[0]
+        args = instructions[1:]
 
-        print(update)
+        commands = {
+            '/ruokalista': hamis_menu,
+            '/huolto': janitor,
+            '/huoltoilmoitus': janitor_form,
+        }
 
-    # for handler in command_handlers:
-    #     updater.dispatcher.add_handler(handler)
-
-    # updater.start_webhook()
+        commands.get(command)(bot, update, args)
