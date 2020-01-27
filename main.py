@@ -1,7 +1,6 @@
 import os
 import logging
 import telegram
-from telegram.ext import Updater, CommandHandler
 from telegram_bot.bot import hamis_menu, janitor, janitor_form
 
 def telegram_bot(request):
