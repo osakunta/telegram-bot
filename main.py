@@ -1,7 +1,7 @@
 import os
 import logging
 from telegram.ext import Updater, CommandHandler
-from bot import hamis_menu, janitor, janitor_form
+from telegram_bot.bot import hamis_menu, janitor, janitor_form
 
 def telegram_bot():
     logging.basicConfig(
