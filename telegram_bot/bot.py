@@ -1,4 +1,4 @@
-from menu import get_todays_menu, get_weeks_menu
+from .menu import get_todays_menu, get_weeks_menu
 
 
 def __send_message(bot, update, message):
