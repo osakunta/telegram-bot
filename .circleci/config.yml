@@ -19,6 +19,6 @@ jobs:
             --runtime python37
             --source https://source.developers.google.com/projects/satakuntatalo-services/repos/github_osakunta_telegram-bot
             --entry-point telegram_bot
-            --memory 128MB
+            --memory 256MB
             --trigger-http
           only-branch: master
