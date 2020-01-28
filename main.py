@@ -14,7 +14,7 @@ def telegram_bot(request):
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), bot)
         instructions = update.message.text.split()
-        command = instructions[0]
+        command = instructions[0].split('@', 1)[0]
         args = instructions[1:]
 
         commands = {
