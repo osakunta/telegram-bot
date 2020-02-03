@@ -1,7 +1,9 @@
 import os
+import sys
 import logging
 import telegram
-from telegram_bot.bot import hamis_menu, janitor, janitor_form
+from telegram_bot.bot import execute_bot_command
+from telegram_bot.mocks import bot as bot_mock, update as update_mock
 
 def telegram_bot(request):
     logging.basicConfig(
@@ -17,10 +19,11 @@ def telegram_bot(request):
         command = instructions[0].split('@', 1)[0]
         args = instructions[1:]
 
-        commands = {
-            '/ruokalista': hamis_menu,
-            '/huolto': janitor,
-            '/huoltoilmoitus': janitor_form,
-        }
+        execute_bot_command(command, args, bot, update)
 
-        commands.get(command)(bot, update, args)
+# Used to test the bot on commandline by: python main.py /command [args]
+if __name__ == '__main__':
+    command = sys.argv[1]
+    args = sys.argv[2:]
+
+    execute_bot_command(command, args, bot_mock, update_mock)
