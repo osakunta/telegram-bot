@@ -1,4 +1,5 @@
 from .menu import get_todays_menu, get_weeks_menu
+from datetime import date
 
 
 def __send_message(bot, update, message):
@@ -19,11 +20,15 @@ def __janitor(bot, update, args):
 def __janitor_form(bot, update, args):
     __send_message(bot, update, "[Huoltoilmoituslomake](https://asuntola.satakuntatalo.fi/huoltoilmoitus)")
 
+def __tj_viisi(bot, update, args):
+    tj = (date(2022, 9, 1) - date.today()).days
+    __send_message(bot, update, f"Viisi-TJ on {tj}!")
 
 __commands = {
     '/ruokalista': __hamis_menu,
     '/huolto': __janitor,
     '/huoltoilmoitus': __janitor_form,
+    '/tjviisi': __tj_viisi
 }
 
 
