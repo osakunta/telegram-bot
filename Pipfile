@@ -10,6 +10,7 @@ requests = "*"
 bs4 = "*"
 python-dotenv = "*"
 python-telegram-bot = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.6"

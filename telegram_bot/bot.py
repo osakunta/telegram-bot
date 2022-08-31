@@ -1,5 +1,8 @@
 from .menu import get_todays_menu, get_weeks_menu
-from datetime import date
+from datetime import datetime, date
+from pytz import timezone
+
+tz = timezone('Europe/Helsinki')
 
 
 def __send_message(bot, update, message):
@@ -21,7 +24,9 @@ def __janitor_form(bot, update, args):
     __send_message(bot, update, "[Huoltoilmoituslomake](https://asuntola.satakuntatalo.fi/huoltoilmoitus)")
 
 def __tj_viisi(bot, update, args):
-    tj = (date(2022, 9, 1) - date.today()).days
+    today = datetime.now(tz).date()
+    opening = tz.localize(datetime(2022, 9, 1)).date()
+    tj = (opening - today).days
     __send_message(bot, update, f"Viisi-TJ on {tj}!")
 
 __commands = {
