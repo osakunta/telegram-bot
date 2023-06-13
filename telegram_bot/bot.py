@@ -21,7 +21,7 @@ def __janitor(bot, update, args):
 
 
 def __janitor_form(bot, update, args):
-    __send_message(bot, update, "[Huoltoilmoituslomake](https://asuntola.satakuntatalo.fi/huoltoilmoitus)")
+    __send_message(bot, update, "[Huoltoilmoituslomake](https://m.fimx.fi/julmo/satakuntatalo/huoltoilmoitus)")
 
 def __tj_viisi(bot, update, args):
     today = datetime.now(tz).date()

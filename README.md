@@ -13,13 +13,18 @@ Available commands:
 
 Development
 -----------
+
+Get `pipenv` from [here](https://pipenv.pypa.io/en/latest/)
+
 Setup the development environment with:
 
-    virtualenv -p /usr/bin/python3 venv
-    . venv/bin/activate
-    pip install pipenv
     pipenv install
-    touch .env
+
+Enter the project's virtual environment with
+
+    pipenv shell
+
+Check pipenv docs for more information.
 
 You can test the commands on commandline by:
 
