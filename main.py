@@ -26,10 +26,13 @@ def telegram_bot(request):
     bot = telegram.Bot(token=os.getenv('TOKEN'))
 
     if request and request.method == "POST":
-        update = telegram.Update.de_json(request.get_json(force=True), bot)
-        command, args = parse_instructions(update)
+        try:
+            update = telegram.Update.de_json(request.get_json(force=True), bot)
+            command, args = parse_instructions(update)
 
-        execute_bot_command(command, args, bot, update)
+            execute_bot_command(command, args, bot, update)
+        except Exception as e:
+            logging.error(f"Error processing update: {e}")
 
 # Used to test the bot on commandline by: python main.py /command [args]
 if __name__ == '__main__':

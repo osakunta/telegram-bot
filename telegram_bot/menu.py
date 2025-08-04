@@ -10,6 +10,16 @@ def __get_menu():
 
     return todays_list
 
+# If the menu is not available, check for any status message
+# Usually happens during the summer break
+def __get_status():
+    url = 'https://hys.net/osakuntabaari/ruokalista/'
+    res = requests.get(url)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    status_message = soup.find("div", {"class": "widget-lunch"}).p.get_text()
+
+    return status_message
+
 
 def __with_header(header, body):
     return '*{}*\n{}'.format(header, body)
@@ -23,18 +33,26 @@ def __format_list(days_list):
 
 
 def get_todays_menu():
-    todays_list = __get_menu().find("div", {"class": "row-today"})
-    formatted_list = __format_list(todays_list)
+    menu = __get_menu()
+    if menu:
+        todays_list = __get_menu().find("div", {"class": "row-today"})
+        formatted_list = __format_list(todays_list)
+        return __with_header('Hämiksen ruokalista', formatted_list)
+    else:
+        return __get_status()
 
-    return __with_header('Hämiksen ruokalista', formatted_list)
 
 
 def get_weeks_menu():
-    weeks_list = __get_menu().find_all("div", {"class": "row"})
-    formatted_list = ''
+    menu = __get_menu()
+    if menu:
+        weeks_list = __get_menu().find_all("div", {"class": "row"})
+        formatted_list = ''
 
-    for days_list in weeks_list:
-        formatted_list += __format_list(days_list)
-        formatted_list += '\n'
+        for days_list in weeks_list:
+            formatted_list += __format_list(days_list)
+            formatted_list += '\n'
 
-    return __with_header('Hämiksen ruokalista', formatted_list)
+        return __with_header('Hämiksen ruokalista', formatted_list)
+    else:
+        return __get_status()
