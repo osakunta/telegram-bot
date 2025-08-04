@@ -1,0 +1,10 @@
+name: telegram-bot
+description: SatO telegram bot
+runtime:
+  name: python
+  options:
+    toolchain: pip
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: python

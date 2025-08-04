@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import telegram
+import functions_framework
 from telegram_bot.bot import execute_bot_command
 from telegram_bot.mocks import bot as bot_mock, update as update_mock
 
@@ -15,6 +16,7 @@ def parse_instructions(update):
 
     return None, None
 
+@functions_framework.http
 def telegram_bot(request):
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
