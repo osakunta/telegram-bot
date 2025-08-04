@@ -10,9 +10,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.13
-
+      - uses: "google-github-actions/auth@v2"
+        with:
+          project_id: "osakunta-telegram-bot"
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
       - run: pip install -r requirements.txt
       - uses: pulumi/actions@v6
         with:
           command: preview
+          stack-name: prod
           cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
