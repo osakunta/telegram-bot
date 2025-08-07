@@ -1,6 +1,9 @@
 name: Pulumi
 on:
-  - pull_request
+  pull_request:
+    paths:
+      - infra/**
+      - .github/workflows/pull_request_infra.yml
 jobs:
   preview:
     name: Pulumi Preview

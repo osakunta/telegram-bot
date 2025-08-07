@@ -1,28 +1,13 @@
-"""A Python Pulumi program"""
-
 import pulumi
 import pulumi_gcp as gcp
-import tarfile
-import hashlib
 
-# create .tar.gz source
-
-# SOURCE_TAR_NAME = "source.tar.gz"
-
-# tarfile_hash = None
-# with tarfile.open(SOURCE_TAR_NAME, "w|gz") as tar:
-#     tar.add("../telegram_bot", arcname="telegram_bot")
-#     tar.add("../main.py", arcname="main.py")
-#     tar.add("../requirements.txt", arcname="requirements.txt")
-#     last_modified = max([member.mtime for member in tar.getmembers()])
-#     tarfile_hash = hashlib.sha256(str(last_modified).encode()).hexdigest()
-
+# Be careful editing this file, if you are unfamiliar with Pulumi or the Google Cloud Platform.
+# Make sure you read the README.md in the root of this repository first.
 
 # setup infrastructure
 
 PROJECT_ID = "osakunta-telegram-bot"
 LOCATION = "europe-north1"
-
 
 # Set up secret to hold the Telegram API token
 telegram_bot_token = gcp.secretmanager.Secret("telegram-bot-token",
@@ -103,4 +88,3 @@ function_public_iam = gcp.cloudrunv2.ServiceIamMember("function-public-iam",
     role="roles/run.invoker",
     member="allUsers"
 )
-
