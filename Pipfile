@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 pulumi = "*"
 pulumi-gcp = "*"
+pulumi-random = "*"
 
 [packages]
 requests = "*"
@@ -14,8 +15,6 @@ python-dotenv = "*"
 python-telegram-bot = "*"
 pytz = "*"
 functions-framework = "*"
-pulumi-random = "*"
-google-cloud-logging = "*"
 
 [requires]
 python_version = "3.12"

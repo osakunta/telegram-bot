@@ -1,7 +1,6 @@
 import os
 import sys
 import logging
-from google.cloud import logging
 import telegram
 import functions_framework
 from telegram_bot.bot import execute_bot_command
@@ -17,18 +16,20 @@ def parse_instructions(update):
 
     return None, None
 
-logging_client = logging.Client()
-logger = logging_client.logger('telegram_bot')
-
 @functions_framework.http
 def telegram_bot(request):
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO
+    )
+
 
     # check the header for the secret token
     secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
-    logger.log_text(f"Received request with secret token: {secret_token}")
-    logger.log_text(f"Environment variable WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
+    logging.info(f"Received request with secret token: {secret_token}")
+    logging.info(f"Environment variable WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
     if secret_token != os.getenv('WEBHOOK_TOKEN'):
-        logger.log_text("Invalid secret token")
+        logging.error("Invalid secret token")
         return "Forbidden", 403
 
     bot = telegram.Bot(token=os.getenv('API_TOKEN'))
