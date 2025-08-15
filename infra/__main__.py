@@ -189,16 +189,15 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
                     "--max-instances", "1",
                     "--min-instances", "0",
                     "--memory", "256Mi",
-                    "--set-env-vars", "API_TOKEN=$$API_TOKEN,WEBHOOK_TOKEN=$$WEBHOOK_TOKEN",
-                    "--clear-secrets",
+                    "--set-secrets", pulumi.Output.format(
+                        "API_TOKEN={0}:latest,WEBHOOK_TOKEN={1}:latest",
+                        telegram_api_token.name,
+                        telegram_webhook_token.name
+                    ),
                     "--source", ".",
                     "--run-service-account", runtime_service_account.email,
                     "--build-service-account", cicd_service_account.id,
                 ],
-                "secretEnv": [
-                    "API_TOKEN",
-                    "WEBHOOK_TOKEN"
-                ]
             },
             {
                 "id": "Get function URL",
