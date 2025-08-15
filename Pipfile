@@ -15,6 +15,7 @@ python-telegram-bot = "*"
 pytz = "*"
 functions-framework = "*"
 pulumi-random = "*"
+google-cloud-logging = "*"
 
 [requires]
 python_version = "3.13"
