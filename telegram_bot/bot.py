@@ -1,12 +1,15 @@
 from .menu import get_todays_menu, get_weeks_menu
 from datetime import datetime, date
 from pytz import timezone
+import asyncio
 
 tz = timezone('Europe/Helsinki')
 
 
 def __send_message(bot, update, message):
-    bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode='markdown')
+    maybe_awaitable = bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode='markdown')
+    if maybe_awaitable is not None:
+        asyncio.run(maybe_awaitable)
 
 
 def __hamis_menu(bot, update, args):

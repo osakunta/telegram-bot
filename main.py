@@ -5,10 +5,6 @@ import telegram
 import functions_framework
 from telegram_bot.bot import execute_bot_command
 from telegram_bot.mocks import bot as bot_mock, update as update_mock
-import google.cloud.logging
-
-client = google.cloud.logging.Client()
-client.setup_logging()
 
 def parse_instructions(update):
     if update and update.message and isinstance(update.message.text, str):
@@ -30,8 +26,6 @@ def telegram_bot(request):
 
     # check the header for the secret token
     secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
-    logging.info(f"Received request with secret token: {secret_token}")
-    logging.info(f"Environment variable WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
     if secret_token != os.getenv('WEBHOOK_TOKEN'):
         logging.error("Invalid secret token")
         return "Forbidden", 403
