@@ -5,6 +5,10 @@ import telegram
 import functions_framework
 from telegram_bot.bot import execute_bot_command
 from telegram_bot.mocks import bot as bot_mock, update as update_mock
+import google.cloud.logging
+
+client = google.cloud.logging.Client()
+client.setup_logging()
 
 def parse_instructions(update):
     if update and update.message and isinstance(update.message.text, str):
