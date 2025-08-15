@@ -218,10 +218,7 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
                 "entrypoint": "bash",
                 "args": [
                     "-c",
-                    "curl -X POST \
-                        -H \"Content-Type: application/json\" \
-                        -d \"{\\\"url\\\":\\\"$(cat /workspace/url.txt)\\\",\\\"secret_token\\\":\\\"$${WEBHOOK_TOKEN}\\\"}\" \
-                        \"https://api.telegram.org/bot$${API_TOKEN}/setWebhook\"" 
+                    'curl https://api.telegram.org/bot$${API_TOKEN}/setWebhook?url=$(cat /workspace/url.txt)&secret_token=$${WEBHOOK_TOKEN}'
                 ],
                 "secretEnv": [
                     "API_TOKEN",
