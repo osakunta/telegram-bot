@@ -23,6 +23,8 @@ def telegram_bot(request):
         level=logging.INFO
     )
 
+    logging.debug("Received request: %s", request)
+
     # check the header for the secret token
     secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
     if secret_token != os.getenv('WEBHOOK_TOKEN'):
