@@ -107,6 +107,7 @@ cicd_service_account = utils.service_account_with_roles(
     [
         "roles/logging.logWriter", 
         "roles/cloudfunctions.developer",
+        "roles/run.admin",
         "roles/iam.serviceAccountUser",
         "roles/storage.objectViewer",
         "roles/artifactregistry.writer"
