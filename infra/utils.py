@@ -13,3 +13,20 @@ def service_account_with_roles(name, roles, **account_args):
             )
         )
     return account
+
+
+def secret_with_access(name, members, **secret_args):
+    secret = gcp.secretmanager.Secret(name, **secret_args)
+    for member in members:
+        member.apply(
+            lambda m: gcp.secretmanager.SecretIamMember(f"{name}-access:{m}",
+                project=secret.project,
+                secret_id=secret.id,
+                role="roles/secretmanager.secretAccessor",
+                member=m,
+                opts=pulumi.ResourceOptions(
+                    depends_on=[secret]
+                )
+            )
+        )
+    return secret

@@ -125,9 +125,12 @@ runtime_service_account = utils.service_account_with_roles(
     display_name="Function Runtime Service Account"
 )
 
-telegram_bot_token = gcp.secretmanager.Secret("telegram-bot-token",
+# used by the cloud function to access telegram API
+telegram_api_token = utils.secret_with_access(
+    "telegram-api-token",
+    members=[runtime_service_account.member, cicd_service_account.member],
     project=project_id.id,
-    secret_id="telegram-bot-token",
+    secret_id="telegram-api-token",
     replication={
         "user_managed": {
             "replicas": [{ "location": LOCATION }]
@@ -136,13 +139,22 @@ telegram_bot_token = gcp.secretmanager.Secret("telegram-bot-token",
     opts=pulumi.ResourceOptions(
         depends_on=[secretmanager_service]
     )
-)
+) 
 
-telegram_bot_token_secret_access = gcp.secretmanager.SecretIamMember("telegram-bot-token-secret-access",
+# telegram sends this alongside the updates to the bot, so that malicious actors cannot use the endpoint
+telegram_webhook_token = utils.secret_with_access(
+    "telegram-webhook-token",
+    members=[runtime_service_account.member, cicd_service_account.member],
     project=project_id.id,
-    secret_id=telegram_bot_token.id,
-    role="roles/secretmanager.secretAccessor",
-    member=runtime_service_account.member,
+    secret_id="telegram-webhook-token",
+    replication={
+        "user_managed": {
+            "replicas": [{ "location": LOCATION }]
+        }
+    },
+    opts=pulumi.ResourceOptions(
+        depends_on=[secretmanager_service]
+    )
 )
 
 deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
@@ -159,7 +171,9 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
     build={
         "steps": [
             {
-                "name": "gcr.io/cloud-builders/gcloud",
+                "id": "Deploy function",
+                "name": "gcr.io/google.com/cloudsdktool/cloud-sdk:slim",
+                "entrypoint": "gcloud",
                 "args": [
                     "functions", "deploy", "telegram-bot",
                     "--region", LOCATION,
@@ -172,16 +186,61 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
                     "--max-instances", "1",
                     "--min-instances", "0",
                     "--memory", "128Mi",
-                    "--set-secrets", telegram_bot_token.name.apply(lambda name: f"TOKEN={name}/versions/latest"),
+                    "--set-env-vars", "API_TOKEN=$$API_TOKEN,WEBHOOK_TOKEN=$$WEBHOOK_TOKEN",
+                    "--clear-secrets",
                     "--source", ".",
                     "--run-service-account", runtime_service_account.email,
                     "--build-service-account", cicd_service_account.id,
                 ],
+                "secretEnv": [
+                    "API_TOKEN",
+                    "WEBHOOK_TOKEN"
+                ]
+            },
+            {
+                "id": "Get function URL",
+                "name": "gcr.io/google.com/cloudsdktool/cloud-sdk:slim",
+                "entrypoint": "bash",
+                "args": [
+                    "-c",
+                    project_id.id.apply(
+                        lambda id: 
+                            f"gcloud functions describe telegram-bot --region={LOCATION} --project={id} --format='value(url)' > /workspace/url.txt"
+                    )
+                ]
+            },
+            {
+                "id": "Set webhook URL",
+                "name": "gcr.io/gcp-runtimes/ubuntu_20_0_4",
+                "entrypoint": "bash",
+                "args": [
+                    "-c",
+                    "curl -X POST \
+                        -H \"Content-Type: application/json\" \
+                        -d \"{\\\"url\\\":\\\"$(cat /workspace/url.txt)\\\",\\\"secret_token\\\":\\\"$${WEBHOOK_TOKEN}\\\"}\" \
+                        \"https://api.telegram.org/bot$${API_TOKEN}/setWebhook\"" 
+                ],
+                "secretEnv": [
+                    "API_TOKEN",
+                    "WEBHOOK_TOKEN"
+                ]
             }
         ],
         "options": {
             "logging": "CLOUD_LOGGING_ONLY"
-        }
+        },
+        "availableSecrets": {
+            "secretManager": [
+                {
+                    "env": "API_TOKEN",
+                    "versionName": telegram_api_token.name.apply(lambda name: f"{name}/versions/latest"),
+                },
+                {
+                    "env": "WEBHOOK_TOKEN",
+                    "versionName": telegram_webhook_token.name.apply(lambda name: f"{name}/versions/latest"),
+                }
+            ]
+        },
     },
     opts=pulumi.ResourceOptions(
         depends_on=[ cloudrun_service, cloudfunctions_service, cloudresourcemanager_service ]
