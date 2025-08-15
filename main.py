@@ -23,7 +23,13 @@ def telegram_bot(request):
         level=logging.INFO
     )
 
-    bot = telegram.Bot(token=os.getenv('TOKEN'))
+    # check the header for the secret token
+    secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
+    if secret_token != os.getenv('WEBHOOK_TOKEN'):
+        logging.error("Invalid secret token")
+        return "Forbidden", 403
+
+    bot = telegram.Bot(token=os.getenv('API_TOKEN'))
 
     if request and request.method == "POST":
         try:
@@ -31,8 +37,12 @@ def telegram_bot(request):
             command, args = parse_instructions(update)
 
             execute_bot_command(command, args, bot, update)
+            return "OK", 200
         except Exception as e:
             logging.error(f"Error processing update: {e}")
+            return "Internal Server Error", 500
+
+    return "Invalid request", 400
 
 # Used to test the bot on commandline by: python main.py /command [args]
 if __name__ == '__main__':
