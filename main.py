@@ -20,10 +20,11 @@ def parse_instructions(update):
 def telegram_bot(request):
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        level=logging.INFO
+        level=logging.DEBUG
     )
 
     logging.debug("Received request: %s", request)
+    logging.debug(f"Environment variables API_TOKEN: {os.getenv('API_TOKEN')}, WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
 
     # check the header for the secret token
     secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
