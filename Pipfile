@@ -15,6 +15,7 @@ python-dotenv = "*"
 python-telegram-bot = "*"
 pytz = "*"
 functions-framework = "*"
+google-cloud-logging = "*"
 
 [requires]
 python_version = "3.12"
