@@ -22,11 +22,11 @@ logger = logging_client.logger('telegram_bot')
 
 @functions_framework.http
 def telegram_bot(request):
-    logger.log_text("Received request: %s", request)
-    logger.log_text(f"Environment variables API_TOKEN: {os.getenv('API_TOKEN')}, WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
 
     # check the header for the secret token
     secret_token = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
+    logger.log_text(f"Received request with secret token: {secret_token}")
+    logger.log_text(f"Environment variable WEBHOOK_TOKEN: {os.getenv('WEBHOOK_TOKEN')}")
     if secret_token != os.getenv('WEBHOOK_TOKEN'):
         logger.log_text("Invalid secret token")
         return "Forbidden", 403
