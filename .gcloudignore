@@ -1,0 +1,10 @@
+# ignore everything
+*
+
+# except the following
+!.gcloudignore
+!.main.py
+!.requirements.txt
+!telegram_bot/bot.py
+!telegram_bot/menu.py
+!telegram_bot/init.py

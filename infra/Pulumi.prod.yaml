@@ -1,3 +1,4 @@
-encryptionsalt: v1:MpvbSqwJ0R0=:v1:Gb5Aayq2PEDs+22I:lFM2LBSteNXhvO4PjNRCgZ5h783eDQ==
+encryptionsalt: v1:dPeFWTLi9AI=:v1:oVtFIvCQGewIBERG:46y/iE1CtLrjeTkc2SilpwEjfJg0iw==
 config:
-  gcp:project: osakunta-telegram-bot
+  gcp:region: europe-north1
+  gcp:disableGlobalProjectWarning: "true"
