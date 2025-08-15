@@ -119,7 +119,10 @@ cicd_service_account = utils.service_account_with_roles(
 
 runtime_service_account = utils.service_account_with_roles(
     "runtime-service-account",
-    [ "roles/iam.serviceAccountUser" ],
+    [ 
+        "roles/iam.serviceAccountUser",
+        "roles/logging.logWriter"
+    ],
     project=project_id.id,
     account_id="runtime-service-account",
     display_name="Function Runtime Service Account"
