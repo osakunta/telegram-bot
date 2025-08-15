@@ -177,7 +177,7 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
                 "args": [
                     "functions", "deploy", "telegram-bot",
                     "--region", LOCATION,
-                    "--runtime", "python313",
+                    "--runtime", "python312",
                     "--entry-point", "telegram_bot",
                     "--trigger-http",
                     "--allow-unauthenticated",

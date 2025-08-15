@@ -18,4 +18,4 @@ pulumi-random = "*"
 google-cloud-logging = "*"
 
 [requires]
-python_version = "3.13"
+python_version = "3.12"
