@@ -194,6 +194,7 @@ deploy_trigger = gcp.cloudbuild.Trigger("deploy-trigger",
                         telegram_api_token.name,
                         telegram_webhook_token.name
                     ),
+                    "--clear-env-vars",
                     "--source", ".",
                     "--run-service-account", runtime_service_account.email,
                     "--build-service-account", cicd_service_account.id,
