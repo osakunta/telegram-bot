@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import logging
 
 
 def __get_menu():
@@ -33,12 +34,13 @@ def __format_list(days_list):
 
 
 def get_todays_menu():
-    menu = __get_menu()
-    if menu:
+    try:
+        menu = __get_menu()
         todays_list = __get_menu().find("div", {"class": "row-today"})
         formatted_list = __format_list(todays_list)
         return __with_header('Hämiksen ruokalista', formatted_list)
-    else:
+    except Exception as e:
+        logging.error(f"Error fetching today's menu: {e}")
         return __get_status()
 
 
