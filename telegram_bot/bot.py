@@ -32,11 +32,18 @@ def __tj_viisi(bot, update, args):
     tj = (opening - today).days
     __send_message(bot, update, f"Viisi-TJ on {tj}!")
 
+def __tj_sauna(bot, update, args):
+    today = datetime.now(tz).date()
+    closing = tz.localize(datetime(2026, 2, 6)).date()
+    tj = (closing - today).days
+    __send_message(bot, update, f"Sauna-TJ on {tj}!")
+
 __commands = {
     '/ruokalista': __hamis_menu,
     '/huolto': __janitor,
     '/huoltoilmoitus': __janitor_form,
     '/tjviisi': __tj_viisi
+    '/tjsauna': __tj_sauna
 }
 
 
