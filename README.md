@@ -8,6 +8,7 @@ Available commands:
     /huoltoilmoitus
     /ruokalista
     /tjviisi
+    /tjsauna
 
 ## Development
 
